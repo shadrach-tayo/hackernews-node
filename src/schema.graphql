@@ -1,0 +1,23 @@
+scalar DateTime
+
+type Query {
+  info: String!
+  feed: [Link!]!
+  link(id: ID!): Link
+}
+
+type Mutation {
+  # A request to add link to database
+  post(url: String!, description: String!): Link!
+  # A request to update a  link in the database
+  updateLink(id: ID!, url: String, description: String): Link
+  # A request to delete link in database
+  deleteLink(id: ID!): Link
+}
+
+type Link {
+  id: ID!
+  createdAt: DateTime!
+  description: String!
+  url: String!
+}
