@@ -1,4 +1,4 @@
-function feed(root, args, context, info) {
+async function feed(root, args, context, info) {
   const where = args.filter
     ? {
         OR: [
@@ -8,10 +8,20 @@ function feed(root, args, context, info) {
       }
     : {};
 
-  const links = context.prisma.links({
-    where
+  const links = await context.prisma.links({
+    where,
+    skip: args.skip,
+    first: args.first,
+    orderBy: args.orderBy
   });
-  return links;
+
+  const count = await context.prisma
+    .linksConnection({
+      where
+    })
+    .aggregate()
+    .count();
+  return { links, count };
 }
 
 module.exports = {

@@ -2,7 +2,7 @@ scalar DateTime
 
 type Query {
   info: String!
-  feed(filter: String): [Link!]!
+  feed(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): FEED
   link(id: ID!): Link
 }
 
@@ -43,4 +43,18 @@ type Vote {
 type Subscription {
   newLink: Link
   newVote: Vote
+}
+
+enum LinkOrderByInput {
+  description_ASC
+  description_DESC
+  url_ASC
+  url_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type FEED {
+  links: [Link!]!
+  count: Int!
 }
